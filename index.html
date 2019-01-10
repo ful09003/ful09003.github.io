@@ -1,0 +1,69 @@
+<html>
+<head>
+    <script type="text/javascript">
+        function handlers() {
+            const $source = document.querySelector('#srctext');
+            const $regexpsource = document.querySelector('#reg');
+            const $result = document.querySelector('#outtext');
+            const $repl = document.querySelector('#repl');
+
+
+            const typeHandler = function(e) {
+                oobler.updateT(e.target.value);
+                //$result.innerText = oobler.ooble();
+            };
+
+            const regHandler = function(e) {
+                var re = String.raw`${e.target.value}`;
+                let nre = new RegExp(`${re}`, "gi");
+                oobler.r = nre;
+            };
+
+            const replHandler = function(e) {
+                oobler.updateP(e.target.value);
+            };
+
+            const updateOobleText = function(e) {
+                let i = document.getElementById("outtext");
+                i.innerText = e.detail;
+            };
+
+            $source.addEventListener('input', typeHandler); // register for oninput
+            $source.addEventListener('propertychange', typeHandler); // for IE8
+            $regexpsource.addEventListener('input', regHandler);
+            $repl.addEventListener('input', replHandler);
+            document.addEventListener('newOoble', updateOobleText);
+        }
+
+        let oobler = {
+            t: "",
+            p: null,
+            r: new RegExp(this.p),
+            oobleT: "",
+            ooble: function() {
+                this.oobleT = "";
+                this.oobleT = this.t.replace(this.r, this.p);
+                let e = new CustomEvent('newOoble', {detail: this.oobleT});
+                document.dispatchEvent(e);
+            },
+
+            updateT: function(t1) {
+              this.t =  t1;
+            },
+
+            updateP: function(p1) {
+                this.p = p1;
+            }
+        };
+    </script>
+</head>
+<body onload="handlers()">
+<form name="oobledata">
+    <textarea id="srctext" placeholder="Text to mess up" style="white-space: pre-wrap;"></textarea>
+    <input id="reg" type="text" placeholder="regex to use"/>
+    <input id="repl" type="text" placeholder="replace with.."/>
+    <input type="button" onclick="oobler.ooble()" value="Ooble">
+</form>
+<div id="outtext"></div>
+</body>
+</html>
