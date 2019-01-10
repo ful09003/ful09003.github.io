@@ -1,5 +1,47 @@
 <html>
 <head>
+    <style>
+        .container{
+            margin: 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr 1fr;
+        }
+        .header {
+            font-family: sans-serif;
+            font-size: 4em;
+            font-weight: bolder;
+            grid-column: 1 / span 4;
+            grid-row: 1;
+            justify-self: center;
+            text-align: center;
+        }
+        .item {
+            justify-self: center;
+            padding:0.5rem;
+            grid-row: 2;
+        }
+        .helpitem {
+            text-align: center;
+            padding:0.2rem;
+            grid-row: 3;
+            grid-column: auto;
+            font-size: 0.75rem;
+            color:darkslategrey;
+        }
+        #outtext {
+            margin-top: 1em;
+            font-family: Arial sans-serif;
+            color: dimgrey;
+            grid-column: 1 / span 4;
+            grid-row: 4;
+        }
+        textarea {
+            border: 1px solid #888;
+            overflow: auto;
+        }
+
+    </style>
     <script type="text/javascript">
         function handlers() {
             const $source = document.querySelector('#srctext');
@@ -58,12 +100,33 @@
     </script>
 </head>
 <body onload="handlers()">
-<form name="oobledata">
-    <textarea id="srctext" placeholder="Text to mess up" style="white-space: pre-wrap;"></textarea>
-    <input id="reg" type="text" placeholder="regex to use"/>
-    <input id="repl" type="text" placeholder="replace with.."/>
-    <input type="button" onclick="oobler.ooble()" value="Ooble">
-</form>
-<div id="outtext"></div>
+<div class="container">
+    <div class="header">Wooblcoobmoob</div>
+    <div class="item">
+        <textarea id="srctext" placeholder="Text to mess up" style="white-space: pre-wrap;"></textarea>
+    </div>
+    <div class="helpitem">Place the text to be oobl-ed here</div>
+    <div class="item">
+        <input id="reg" type="text" placeholder="regex to use"/>
+    </div>
+    <div class="helpitem">
+        <p>Enter a javascript-compatible regex here. Note a few things:</p>
+        <ul>
+            <li>Opening and closing backslashes are automatically added</li>
+            <li>g+i (global,case-insensitive) modifiers are automatically added</li>
+        </ul>
+        <p><b>As an example, to match vowels in the original text, enter "[aeiou]" (without quotes)</b></p>
+    </div>
+    <div class="item">
+        <input id="repl" type="text" placeholder="replace with.."/>
+    </div>
+    <div class="helpitem">What you'd like this page to replace. Try "oob" (without quotes)</div>
+    <div class="item">
+        <input type="button" onclick="oobler.ooble()" value="Ooble">
+    </div>
+    <div class="helpitem">Click this</div>
+    <div id="outtext"></div>
+
+</div>
 </body>
 </html>
